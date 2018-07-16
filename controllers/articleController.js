@@ -43,4 +43,15 @@ router.post('/', (req, res) => {
   })
 })
 
+// delete
+router.delete('/:id', (req, res) => {
+  Article.findByIdAndRemove(req.params.id, (err, deletedArticle) => {
+    if(err) console.log("mongoose error on article delete route", err);
+    else {
+      console.log("-------->successfully deleted the following:", deletedArticle);
+      res.redirect('/articles')
+    }
+  })
+})
+
 module.exports = router;
