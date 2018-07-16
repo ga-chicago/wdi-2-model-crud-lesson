@@ -4,7 +4,11 @@ const Article = require('../models/article');
 
 // index
 router.get('/', (req, res) => {
-  res.render('articles/index.ejs')
+  Article.find({}, (err, foundArticles) => {
+    res.render('articles/index.ejs', {
+      articles: foundArticles
+    })    
+  })
 })
 
 // new

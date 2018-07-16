@@ -18,5 +18,13 @@
         </ul>
       </nav>
     </header>
+    <main>
+      <h2>All the articles</h2>
+      <ul>
+        <% for (var i = 0; i < articles.length; i++) { -%>
+          <li><%= articles[i].title %></li>        
+        <% } -%>
+      </ul>
+    </main>
   </body>
 </html>
