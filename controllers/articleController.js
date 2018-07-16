@@ -54,4 +54,19 @@ router.delete('/:id', (req, res) => {
   })
 })
 
+//edit
+router.get('/:id/edit', (req, res) => {
+  Article.findById(req.params.id, (err, foundArticle) => {
+    if(err) {
+      console.error('mongoose error in edit route', err);
+      res.send(500, "there was an error check the terminal")
+    }
+    else {
+      res.render('articles/edit.ejs', {
+        article: foundArticle
+      })
+    }    
+  })
+})
+
 module.exports = router;
