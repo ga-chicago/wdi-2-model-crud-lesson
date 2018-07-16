@@ -44,9 +44,19 @@ router.post('/', (req, res) => {
       console.log("^^^^here's the author you created")
       res.redirect('/authors')
     }
-    
   })
-
 })
+
+
+// destroy route
+router.delete('/:id', (req, res) => {
+  Author.findByIdAndRemove(req.params.id, (err, deletedAuthor) => {
+    if(err) console.log(err);
+    else {
+      res.redirect('/authors')
+    }    
+  })
+})
+
 
 module.exports = router;

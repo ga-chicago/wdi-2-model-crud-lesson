@@ -27,6 +27,9 @@
         <li>Name: <%= author.name %></li>
       </ul>
     </section>
+    <form action="/authors/<%= author.id %>?_method=DELETE" method="POST">
+      <button>Delete this author</button>      
+    </form>
   </main>
 </body>
 </html>
