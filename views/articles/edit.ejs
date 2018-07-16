@@ -22,7 +22,7 @@
       <h2>Article Attributes:</h2>
       <form action="/articles/<%= article.id %>?_method=PUT" method="POST">
         <input type="text" name="title" value="<%=article.title%>"/><br/>
-        <textarea name=""><%= article.body %></textarea><br/>
+        <textarea name="body"><%= article.body %></textarea><br/>
         <input type="submit" value="Update Article"/>
       </form>
     </main>

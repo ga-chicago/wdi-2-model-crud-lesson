@@ -69,4 +69,19 @@ router.get('/:id/edit', (req, res) => {
   })
 })
 
+router.put('/:id', (req, res) => {
+  Article.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, updatedArticle) => {
+      if(err) console.log("mongoose error in update route ", err);
+      else {
+        console.log(updatedArticle, "updated ARticle in article update route")
+        res.redirect('/articles/' + req.params.id)
+      }
+    }
+  )
+})
+
 module.exports = router;
