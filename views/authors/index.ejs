@@ -5,7 +5,6 @@
 </head>
 <body>
   <header>
-    <h1>Authors</h1>
     <nav>
       <ul>
         <li><a href="/">Home</a></li>
@@ -13,5 +12,13 @@
       </ul>
     </nav>
   </header>
+  <h1>Author Index</h1>
+  <ul>
+    <% for (let i = 0; i < authors.length; i++) { -%>
+      <li>
+        <a href="/authors/<%= authors[i].id %>"><%= authors[i].name %></a>
+      </li>
+    <% } -%>
+  </ul>
 </body>
 </html>

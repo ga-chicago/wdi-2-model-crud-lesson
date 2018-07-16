@@ -4,7 +4,14 @@ const Author = require('../models/author')
 
 // author index route
 router.get('/', (req, res) => {
-  res.render('authors/index.ejs')
+  Author.find({}, (err, foundAuthors) => {
+    if(err) console.log(err);
+    else {
+      res.render('authors/index.ejs', {
+        authors: foundAuthors
+      })
+    }
+  })
 })
 
 // author new route
