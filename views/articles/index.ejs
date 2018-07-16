@@ -22,7 +22,9 @@
       <h2>All the articles</h2>
       <ul>
         <% for (var i = 0; i < articles.length; i++) { -%>
-          <li><%= articles[i].title %></li>        
+          <li>
+            <a href="/articles/<%= articles[i].id %>"><%= articles[i].title %></a>
+          </li>        
         <% } -%>
       </ul>
     </main>

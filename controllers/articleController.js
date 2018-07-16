@@ -16,6 +16,21 @@ router.get('/new', (req, res) => {
   res.render('articles/new.ejs')  
 })
 
+// show
+router.get('/:id', (req, res) => {
+  Article.findById(req.params.id, (err, foundArticle) => {
+    if(err) {
+      console.error('mongoose error', err);
+      res.send(500, "there was an error check the terminal")
+    }
+    else {
+      res.render('articles/show.ejs', {
+        article: foundArticle
+      })
+    }    
+  })
+})
+
 // create
 router.post('/', (req, res) => {
   Article.create(req.body, (err, createdArticle) => {
