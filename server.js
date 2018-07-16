@@ -1,8 +1,13 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser')
 
 // run our database connection code
 require('./db/db');
+
+// middleware -- all routes must pass thru this
+// therefore it needs to be before controller(s)
+app.use(bodyParser.urlencoded({extended: false}));
 
 // controllers
 const authorController = require('./controllers/authorController')
