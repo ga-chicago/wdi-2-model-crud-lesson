@@ -30,6 +30,11 @@
     <form action="/authors/<%= author.id %>?_method=DELETE" method="POST">
       <button>Delete this author</button>      
     </form>
+    <p>
+      <a href="/authors/<%= author.id %>/edit"><button>Edit this author</button></a>
+    </p>  
+
+           
   </main>
 </body>
 </html>

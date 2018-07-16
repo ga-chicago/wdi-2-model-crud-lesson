@@ -58,6 +58,7 @@ router.delete('/:id', (req, res) => {
   })
 })
 
+
 // edit route
 router.get('/:id/edit', (req, res) => {
   Author.findById(req.params.id, (err, foundAuthor) => {
@@ -65,6 +66,22 @@ router.get('/:id/edit', (req, res) => {
       author: foundAuthor
     })
   })
+})
+
+
+//update route
+router.put('/:id', (req, res) => {
+  Author.findByIdAndUpdate(
+    req.params.id, 
+    req.body, 
+    { new: true },
+    (err, updatedAuthor) => {
+      if(err) console.log(err);
+      else {
+        res.redirect('/authors')
+      }
+    }
+  );
 })
 
 
