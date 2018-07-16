@@ -3,7 +3,12 @@ const router = express.Router();
 
 // index
 router.get('/', (req, res) => {
-  res.send('You hit the articles index route')
+  res.render('articles/index.ejs')
+})
+
+// new
+router.get('/new', (req, res) => {
+  res.render('articles/new.ejs')  
 })
 
 module.exports = router;
