@@ -19,6 +19,18 @@ router.get('/new', (req, res) => {
   res.render('authors/new.ejs')
 })
 
+// show route -- must go below new in the controller (why?)
+router.get('/:id', (req, res) => {
+  Author.findById(req.params.id, (err, foundAuthor) => {
+    if(err) console.log(err);
+    else {
+      res.render('authors/show.ejs', {
+        author: foundAuthor
+      })
+    }
+  })
+})
+
 // author create route
 router.post('/', (req, res) => {
   // see what user typed
