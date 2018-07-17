@@ -1,11 +1,8 @@
 const mongoose = require('mongoose')
+const Author = require('./author')
 
 const articleSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    unique: true
-  },
+  title: String,
   body: String,
   date: {
     type: Date,
