@@ -85,6 +85,7 @@ router.get('/:id/edit', (req, res) => {
   })
 })
 
+// update
 router.put('/:id', (req, res) => {
   Article.findByIdAndUpdate(
     req.params.id,
@@ -93,8 +94,13 @@ router.put('/:id', (req, res) => {
     (err, updatedArticle) => {
       if(err) console.log("mongoose error in update route ", err);
       else {
-        console.log(updatedArticle, "updated ARticle in article update route")
-        res.redirect('/articles/' + req.params.id)
+        Author.findOne({ 'articles._id' : req.params.id }, (err, foundAuthor) => {
+          foundAuthor.articles.id(req.params.id).remove();
+          foundAuthor.articles.push(updatedArticle);
+          foundAuthor.save((err, data) => {
+              res.redirect('/articles/' + req.params.id);
+          });
+        });
       }
     }
   )
