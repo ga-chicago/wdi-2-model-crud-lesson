@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
 })
 
 // new
-router.get('/new', async (req, res) => {
+router.get('/new', async (req, res, next) => {
   try {
     const allAuthors = await Author.find({});
     res.render('articles/new.ejs', {
@@ -27,26 +27,24 @@ router.get('/new', async (req, res) => {
   }
   catch (err) {
     console.error(err, " query error in Article new route")
-    next(err) // this will cause error reporting to behave the way it did before    
+    next(err) 
   }
 })
 
 // show
-router.get('/:id', (req, res) => {
-  Article.findById(req.params.id, (err, foundArticle) => {
-    if(err) {
-      console.error('mongoose error', err);
-      res.send(500, "there was an error check the terminal")
-    }
-    else {
-      Author.findOne({'articles._id':req.params.id}, (err, foundAuthor)=>{
-          res.render('articles/show.ejs', {
-              author: foundAuthor,
-              article: foundArticle
-          });
-      })
-    }    
-  })
+router.get('/:id', async (req, res, next) => {
+  try {
+    const foundArticle = await Article.findById(req.params.id);
+    const foundAuthor = await Author.findOne({'articles._id': req.params.id});
+    res.render('articles/show.ejs', {
+      author: foundAuthor,
+      article: foundArticle
+    });
+  }
+  catch(err) {
+    console.error(err, " query error in Article show route")
+    next(err) 
+  }
 })
 
 // create
