@@ -4,21 +4,31 @@ const Article = require('../models/article');
 const Author = require('../models/author');
 
 // index
-router.get('/', (req, res) => {
-  Article.find({}, (err, foundArticles) => {
+router.get('/', async (req, res, next) => {
+  try {
+    const foundArticles = await Article.find({});
     res.render('articles/index.ejs', {
       articles: foundArticles
-    })    
-  })
+    })        
+  }
+  catch (err) {
+    console.error(err, " query error in Article Index route")
+    next(err) // this will cause error reporting to behave the way it did before
+  }
 })
 
 // new
-router.get('/new', (req, res) => {
-  Author.find({}, (err, allAuthors)=>{
+router.get('/new', async (req, res) => {
+  try {
+    const allAuthors = await Author.find({});
     res.render('articles/new.ejs', {
       authors: allAuthors
     });
-  });
+  }
+  catch (err) {
+    console.error(err, " query error in Article new route")
+    next(err) // this will cause error reporting to behave the way it did before    
+  }
 })
 
 // show
