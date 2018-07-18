@@ -29,8 +29,11 @@ router.get('/:id', (req, res) => {
       res.send(500, "there was an error check the terminal")
     }
     else {
-      res.render('articles/show.ejs', {
-        article: foundArticle
+      Author.findOne({'articles._id':req.params.id}, (err, foundAuthor)=>{
+          res.render('articles/show.ejs', {
+              author:foundAuthor,
+              article: foundArticle
+          });
       })
     }    
   })
