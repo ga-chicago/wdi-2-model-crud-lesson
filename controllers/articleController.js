@@ -38,13 +38,17 @@ router.get('/:id', (req, res) => {
 
 // create
 router.post('/', (req, res) => {
-  Article.create(req.body, (err, createdArticle) => {
-    if(err) console.error(err);
-    else {
-      console.log(createdArticle)
-      console.log("^^^^ CREATED ARTICLE in Article create route")
-      res.redirect('/articles')
-    }
+  Author.findById(req.body.authorId, (err, foundAuthor) => {
+    // NOTE: req.body.authorId is ignored when creating Article due to Article Schema
+    Article.create(req.body, (err, createdArticle) => {
+      if(err) console.error(err);
+      else {
+        foundAuthor.articles.push(createdArticle)
+        foundAuthor.save((err, data) => {
+          res.redirect('/articles')        
+        });
+      }
+    })
   })
 })
 
