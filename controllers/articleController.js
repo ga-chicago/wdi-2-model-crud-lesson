@@ -63,18 +63,18 @@ router.post('/', async (req, res, next) => {
 })
 
 // delete
-router.delete('/:id', (req, res) => {
-  Article.findByIdAndRemove(req.params.id, (err, deletedArticle) => {
-    if(err) console.log("mongoose error on article delete route", err);
-    else {
-      Author.findOne({'articles._id':req.params.id}, (err, foundAuthor)=>{
-        foundAuthor.articles.id(req.params.id).remove();
-        foundAuthor.save((err, data)=>{
-            res.redirect('/articles');
-        });
-      });
-    }
-  })
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const deletedArticle = await Article.findByIdAndRemove(req.params.id);
+    const foundAuthor = await Author.findOne({'articles._id':req.params.id});
+    foundAuthor.articles.id(req.params.id).remove();
+    const result = await foundAuthor.save();
+    res.redirect('/articles');
+  }
+  catch(err) {
+    console.error(err, " query error in Article show route")
+    next(err) 
+  }
 })
 
 //edit
