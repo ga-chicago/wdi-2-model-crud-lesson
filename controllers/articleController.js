@@ -60,8 +60,12 @@ router.delete('/:id', (req, res) => {
   Article.findByIdAndRemove(req.params.id, (err, deletedArticle) => {
     if(err) console.log("mongoose error on article delete route", err);
     else {
-      console.log("-------->successfully deleted the following:", deletedArticle);
-      res.redirect('/articles')
+      Author.findOne({'articles._id':req.params.id}, (err, foundAuthor)=>{
+        foundAuthor.articles.id(req.params.id).remove();
+        foundAuthor.save((err, data)=>{
+            res.redirect('/articles');
+        });
+      });
     }
   })
 })
