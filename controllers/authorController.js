@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Author = require('../models/author')
+const Author = require('../models/author');
+const Article = require('../models/article');
 
 // author index route
 router.get('/', (req, res) => {
@@ -50,12 +51,30 @@ router.post('/', (req, res) => {
 
 // destroy route
 router.delete('/:id', (req, res) => {
-  Author.findByIdAndRemove(req.params.id, (err, deletedAuthor) => {
-    if(err) console.log(err);
-    else {
-      res.redirect('/authors')
-    }    
-  })
+
+  // delete the Author
+  Author.findByIdAndRemove(req.params.id, (err, foundAuthor)=>{
+
+    // build a list of article ids for all the articles by this author
+    const articleIds = [];
+    for (let i = 0; i < foundAuthor.articles.length; i++) {
+      articleIds.push(foundAuthor.articles[i]._id);
+    }
+    // remove all articles where the _id is "in" the array we just built
+    Article.remove(
+      {
+        _id : {
+          $in: articleIds
+        }
+      },
+      (err, data)=>{
+        if(err) console.log(err);
+        else {
+          res.redirect('/authors');
+        }
+      }
+    );
+  });
 })
 
 
