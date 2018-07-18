@@ -48,19 +48,18 @@ router.get('/:id', async (req, res, next) => {
 })
 
 // create
-router.post('/', (req, res) => {
-  Author.findById(req.body.authorId, (err, foundAuthor) => {
-    // NOTE: req.body.authorId is ignored when creating Article due to Article Schema
-    Article.create(req.body, (err, createdArticle) => {
-      if(err) console.error(err);
-      else {
-        foundAuthor.articles.push(createdArticle)
-        foundAuthor.save((err, data) => {
-          res.redirect('/articles')        
-        });
-      }
-    })
-  })
+router.post('/', async (req, res, next) => {
+  try {
+    const foundAuthor = await Author.findById(req.body.authorId);
+    const createdArticle = await Article.create(req.body);
+    foundAuthor.articles.push(createdArticle);
+    const result = await foundAuthor.save()
+    res.redirect('/articles')
+  }
+  catch(err) {
+    console.error(err, " query error in Article show route")
+    next(err) 
+  }
 })
 
 // delete
